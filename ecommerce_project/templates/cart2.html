@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+Welcome to Your Quantum Vault Hub - Navigate, Curate, and Secure Your Cosmic Selections
+{% endblock %}
+{% block title %}
+Vault-QuanChic Enterprises X
+{% endblock %}
+{% block content %}
+{% if not cart_items %}
+    <div class="text-center">
+        <br>
+        <h1 class="my_title">Your Vault Awaits Exploration</h1>
+        <br>
+        <p>Initiate <a href="{% url 'shop:allProdCat' %}">Here</a></p>
+    </div>
+{% else %}
+    <div class="text-center">
+        <br>
+        <h1 class="my_title">Your Galactic Trove</h1>
+        <br>
+    </div>
+    <div class="row mx-auto">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+            <table class="table my_custom_table">
+                <thead class="my_custom_thead">
+                    <tr>
+                        <th>Image</th>
+                        <th>Product Details</th>
+                        <th>Subtotal</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cart_item in cart_items %}
+                        <tr>
+                            <td>
+                                <a href="{{ cart_item.product.get_absolute_url }}">
+                                    <img src="{{ cart_item.product.image.url }}" alt="{{ cart_item.product.name }}" class="img-thumbnail rounded custom-image">
+                                </a>
+                            </td>
+                            <td class="text-left">
+                                {{ cart_item.product.name }}
+                                <br>
+                                SKU: {{ cart_item.product.id }}
+                                <br>
+                                Value: ETH {{ cart_item.product.price }}
+                                <br>
+                                Quantity: {{ cart_item.quantity }}
+                            </td>
+                            <td>
+                                ETH {{ cart_item.sub_total }}
+                            </td>
+                            <td>
+                                {% if cart_item.quantity < cart_item.product.stock %}
+                                    <a href="{% url 'cart:add_cart' cart_item.product.id %}" class="custom-a">
+                                        <i class="fa-solid fa-plus custom-icon"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a href="#" class="custom-a">
+                                        <i class="fa-solid fa-minus custom-icon"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a href="#" class="custom-icon">
+                                        <i class="fa-solid fa-trash custom-icon"></i>
+                                    </a>
+                                {% else %}
+                                    &nbsp;
+                                    <a href="#" class="custom-a">
+                                        <i class="fa-solid fa-minus custom-icon"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a href="#" class="custom-icon">
+                                        <i class="fa-solid fa-trash custom-icon"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+            <table class="table custom-table">
+                <thead class="my-custom-thead">
+                    <tr>
+                        <th>Seal the Deal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ascertain Your Choices Before Launching Secure Transaction</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="mx-auto">
+                <a href="{% url 'shop:allProdCat' %}" class="btn btn-secondary btn-block my-custom-button">Uncover More</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
