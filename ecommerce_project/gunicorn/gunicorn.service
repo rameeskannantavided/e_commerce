@@ -1,0 +1,13 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/ecommerce_project
+ExecStart=/home/ubuntu/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/ubuntu/ecommerce_project/ecommerce_project/ecommerce_project.sock ecommerce_project.wsgi:application
+
+       
+[Install]
+WantedBy=multi-user.target
